@@ -19,7 +19,7 @@ pull_repo "chat-boty-backend"
 pull_repo "chat-boty-client"
 
 echo "Stopping and removing existing Docker containers"
-docker-compose down
+docker compose down
 
 echo "Building and starting Docker Compose"
-docker-compose up --build -d
+docker compose up --build -d
