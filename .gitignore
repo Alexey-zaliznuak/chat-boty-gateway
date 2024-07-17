@@ -1,3 +1,4 @@
 .env
 chat-boty-client/
 chat-boty-backend/
+test.py
