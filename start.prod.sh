@@ -23,7 +23,7 @@ pull_repo() {
 
 
 clone_if_not_exists "chat-boty-backend" "git clone --branch main git@github.com:Alexey-zaliznuak/chat-boty-backend.git"
-clone_if_not_exists "chat-boty-client" "git clone --branch main git@github.com:maxi-q/chat-boty-client.git"
+clone_if_not_exists "chat-boty-client" "git clone --branch master git@github.com:maxi-q/chat-boty-client.git"
 
 
 echo "Pull gateway repository"
