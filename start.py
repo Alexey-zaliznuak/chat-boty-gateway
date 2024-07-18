@@ -33,20 +33,24 @@ def main(branch):
     # Запуск агента SSH и добавление ключа
     run_command('eval "$(ssh-agent -s)"')
     run_command('SSH_AUTH_SOCK=$SSH_AUTH_SOCK ssh-add ~/.ssh/github')  # SSH_AUTH_SOCK=$SSH_AUTH_SOCK что бы был ssh агент текущего пользователя
+    print()
 
     # Клонирование репозиториев
     clone_if_not_exists("chat-boty-backend", f"git clone --branch {branch} git@github.com:Alexey-zaliznuak/chat-boty-backend.git")
     clone_if_not_exists("chat-boty-client", f"git clone --branch {branch} git@github.com:maxi-q/chat-boty-client.git")
 
     # Pull изменений в репозиториях
-    print("Pull gateway repository")
+    print("Pull gateway...")
     run_command("git pull")
+    print()
 
-    print("Pull backend")
+    print("Pull backend...")
     pull_repo("chat-boty-backend")
+    print()
 
-    print("Pull client")
+    print("Pull client....")
     pull_repo("chat-boty-client")
+    print()
 
     # Остановка и запуск Docker Compose
     print("Остановка и удаление существующих контейнеров Docker")
