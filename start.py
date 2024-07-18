@@ -38,6 +38,7 @@ def main(branch):
     # Клонирование репозиториев
     clone_if_not_exists("chat-boty-backend", f"git clone --branch {branch} git@github.com:Alexey-zaliznuak/chat-boty-backend.git")
     clone_if_not_exists("chat-boty-client", f"git clone --branch {branch} git@github.com:maxi-q/chat-boty-client.git")
+    print()
 
     # Pull изменений в репозиториях
     print("Pull gateway...")
