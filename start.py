@@ -50,10 +50,10 @@ def main(branch):
 
     # Остановка и запуск Docker Compose
     print("Остановка и удаление существующих контейнеров Docker")
-    run_command("docker compose down")
+    run_command("sudo docker compose down")
 
     print("Сборка и запуск Docker Compose")
-    run_command("docker compose up --build -d")
+    run_command("sudo docker compose up --build -d")
 
 
 if __name__ == "__main__":
