@@ -1,5 +1,8 @@
 #!/bin/bash
 
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/github
+
 clone_if_not_exists() {
     local DIR=$1
     shift
