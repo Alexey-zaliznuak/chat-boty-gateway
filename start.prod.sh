@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Функция для пуллинга репозитория
 clone_if_not_exists() {
     local DIR=$1
     shift
@@ -30,10 +29,10 @@ echo "Pull gateway repository"
 git pull
 
 
-echo "Clone backend repository if not exists"
+echo "Pull backend"
 pull_repo "chat-boty-backend"
 
-echo "Clone client repository if not exists"
+echo "Pull client"
 pull_repo "chat-boty-client"
 
 
