@@ -3,88 +3,96 @@ import subprocess
 import argparse
 
 
-def run_command(command):
-    """Запуск команды в терминале."""
+def check_path_exists(path: str):
+    if not os.path.exists(path):
+        raise OSError("Path does not exist")
+
+
+def run_command(command: str, print_blank_end_line: bool = True):
+    """Run command in terminal."""
     process = subprocess.run(command, shell=True)
+
     if process.returncode != 0:
-        raise Exception(f"Команда {command} завершилась с ошибкой {process.returncode}")
+        raise Exception(f"Command {command} failed with code: {process.returncode}")
+
+    if print_blank_end_line:
+        print()
 
 
-def clone_if_not_exists(dir_path, clone_command):
-    """Клонирование репозитория, если директория не существует."""
-    if not os.path.exists(dir_path):
-        print(f"Клонируется: {clone_command}")
-        run_command(clone_command)
+def clone_if_not_exists(directory: str, repo: str, branch: str = None):
+    """
+    Cloning repo, if directory does not exist.
+    Raise value error if clone requires but branch not provided.
+    """
+    if not os.path.exists(directory):
+        if branch is None:
+            raise ValueError("Branch argument not provided, but clone required, use --dev or --master")
+
+        print(f"Cloning: {repo}")
+        run_command(repo)
     else:
-        print(f"Директория {dir_path} уже существует, клонирование не требуется.")
+        print(f"Directory {directory} already exist, cloning not required.")
 
 
-def pull_repo(repo_dir):
-    """Выполнение git pull в существующем репозитории."""
-    if os.path.exists(repo_dir):
-        print(f"Pull репозитория {repo_dir}")
-        run_command(f"git -C {repo_dir} pull")
-    else:
-        print(f"ОШИБКА: Директория {repo_dir} не существует")
+def pull_repo(repo_directory: str):
+    """Run git pull in provided directory."""
+
+    check_path_exists(repo_directory)
+
+    print(f"Pull repo: {repo_directory}")
+    run_command(f"git -C {repo_directory} pull")
 
 
 def check_env_file_exists():
     env_file = '.env'
 
     if not os.path.isfile(env_file):
-        raise EnvironmentError(f"Файл {env_file} не найден.")
+        raise EnvironmentError(f"Env file: {env_file} does not exist.")
 
     if os.path.getsize(env_file) == 0:
-        raise EnvironmentError(f"Файл {env_file} пустой.")
+        raise EnvironmentError(f"Env file {env_file} is blank.")
 
 
 def main(branch):
-    """Основная логика выполнения скрипта."""
     check_env_file_exists()
 
-    # Запуск агента SSH и добавление ключа
+    # Run ssh agent, add github ssh key
     run_command('eval "$(ssh-agent -s)"')
     run_command('SSH_AUTH_SOCK=$SSH_AUTH_SOCK ssh-add ~/.ssh/github')  # SSH_AUTH_SOCK=$SSH_AUTH_SOCK что бы был ssh агент текущего пользователя
-    print()
 
-    # Клонирование репозиториев
-    clone_if_not_exists("chat-boty-backend", f"git clone --branch {branch} git@github.com:Alexey-zaliznuak/chat-boty-backend.git")
-    clone_if_not_exists("chat-boty-client", f"git clone --branch {branch} git@github.com:maxi-q/chat-boty-client.git")
-    print()
+    # Clone backend and client repo`s
+    clone_if_not_exists("chat-boty-backend", f"git@github.com:Alexey-zaliznuak/chat-boty-backend.git", branch)
+    clone_if_not_exists("chat-boty-client", f"git@github.com:maxi-q/chat-boty-client.git", branch)
 
-    # Pull изменений в репозиториях
+    # Pull changes
     print("Pull gateway...")
     run_command("git pull")
-    print()
 
     print("Pull backend...")
     pull_repo("chat-boty-backend")
-    print()
 
     print("Pull client....")
     pull_repo("chat-boty-client")
-    print()
 
-    # Остановка и запуск Docker Compose
-    print("Остановка и удаление существующих контейнеров Docker")
+    # Rstart Docker Compose
+    print("Stopping Docker Compose")
     run_command("sudo docker compose down")
 
-    print("Сборка и запуск Docker Compose")
+    print("Rebuild Docker Compose")
     run_command("sudo docker compose up --build -d")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Клонирование репозиториев и выполнение Docker Compose.")
-    parser.add_argument('--dev', action='store_true', help='Использовать ветку dev для клонирования.')
-    parser.add_argument('--master', action='store_true', help='Использовать ветку main для клонирования.')
+    parser.add_argument('--dev', action='store_true', help='Use dev branch for cloning.')
+    parser.add_argument('--master', action='store_true', help='Use master branch for cloning.')
 
     args = parser.parse_args()
 
+    branch = None
     if args.dev:
         branch = "dev"
     elif args.master:
         branch = "master"
-    else:
-        raise ValueError("Branch argument not provided, use --dev or --master")
 
     main(branch)
