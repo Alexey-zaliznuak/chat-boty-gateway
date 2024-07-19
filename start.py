@@ -35,7 +35,7 @@ def check_env_file_exists():
         raise EnvironmentError(f"Файл {env_file} не найден.")
 
     if os.path.getsize(env_file) == 0:
-        raise EnvironmentError(f"Файл {env_file} не найден.")
+        raise EnvironmentError(f"Файл {env_file} пустой.")
 
 
 def main(branch):
