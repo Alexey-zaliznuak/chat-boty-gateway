@@ -65,11 +65,14 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Клонирование репозиториев и выполнение Docker Compose.")
     parser.add_argument('--dev', action='store_true', help='Использовать ветку dev для клонирования.')
     parser.add_argument('--master', action='store_true', help='Использовать ветку main для клонирования.')
+
     args = parser.parse_args()
 
-    # Установка ветки по умолчанию (master)
-    branch = "master"
     if args.dev:
         branch = "dev"
+    elif args.master:
+        branch = "master"
+    else:
+        raise ValueError("Branch argument not provided, use --dev or --master")
 
     main(branch)
