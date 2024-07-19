@@ -28,8 +28,20 @@ def pull_repo(repo_dir):
         print(f"ОШИБКА: Директория {repo_dir} не существует")
 
 
+def check_env_file_exists():
+    env_file = '.env'
+
+    if not os.path.isfile(env_file):
+        raise EnvironmentError(f"Файл {env_file} не найден.")
+
+    if os.path.getsize(env_file) == 0:
+        raise EnvironmentError(f"Файл {env_file} не найден.")
+
+
 def main(branch):
     """Основная логика выполнения скрипта."""
+    check_env_file_exists()
+
     # Запуск агента SSH и добавление ключа
     run_command('eval "$(ssh-agent -s)"')
     run_command('SSH_AUTH_SOCK=$SSH_AUTH_SOCK ssh-add ~/.ssh/github')  # SSH_AUTH_SOCK=$SSH_AUTH_SOCK что бы был ssh агент текущего пользователя
