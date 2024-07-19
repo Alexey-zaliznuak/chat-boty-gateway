@@ -32,39 +32,47 @@ def main(branch):
     """Основная логика выполнения скрипта."""
     # Запуск агента SSH и добавление ключа
     run_command('eval "$(ssh-agent -s)"')
-    run_command('ssh-add ~/.ssh/github')
+    run_command('SSH_AUTH_SOCK=$SSH_AUTH_SOCK ssh-add ~/.ssh/github')  # SSH_AUTH_SOCK=$SSH_AUTH_SOCK что бы был ssh агент текущего пользователя
+    print()
 
     # Клонирование репозиториев
     clone_if_not_exists("chat-boty-backend", f"git clone --branch {branch} git@github.com:Alexey-zaliznuak/chat-boty-backend.git")
     clone_if_not_exists("chat-boty-client", f"git clone --branch {branch} git@github.com:maxi-q/chat-boty-client.git")
+    print()
 
     # Pull изменений в репозиториях
-    print("Pull gateway repository")
+    print("Pull gateway...")
     run_command("git pull")
+    print()
 
-    print("Pull backend")
+    print("Pull backend...")
     pull_repo("chat-boty-backend")
+    print()
 
-    print("Pull client")
+    print("Pull client....")
     pull_repo("chat-boty-client")
+    print()
 
     # Остановка и запуск Docker Compose
     print("Остановка и удаление существующих контейнеров Docker")
-    run_command("docker compose down")
+    run_command("sudo docker compose down")
 
     print("Сборка и запуск Docker Compose")
-    run_command("docker compose up --build -d")
+    run_command("sudo docker compose up --build -d")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Клонирование репозиториев и выполнение Docker Compose.")
     parser.add_argument('--dev', action='store_true', help='Использовать ветку dev для клонирования.')
     parser.add_argument('--master', action='store_true', help='Использовать ветку main для клонирования.')
+
     args = parser.parse_args()
 
-    # Установка ветки по умолчанию (master)
-    branch = "master"
     if args.dev:
         branch = "dev"
+    elif args.master:
+        branch = "master"
+    else:
+        raise ValueError("Branch argument not provided, use --dev or --master")
 
     main(branch)
