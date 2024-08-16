@@ -32,8 +32,8 @@ services:
       db:
         condition: service_healthy
 
-    # volumes:
-    #   - content/blog:/app/data
+    volumes:
+      - content/blog:/app/data
 
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8000/ping || exit 1"]
