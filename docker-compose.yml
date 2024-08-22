@@ -2,6 +2,7 @@ version: '3'
 
 volumes:
   static:
+  blog_content:
   postgres_data:
 
 services:
@@ -30,6 +31,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+    volumes:
+      - blog_content:/app/data
 
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8000/ping || exit 1"]
