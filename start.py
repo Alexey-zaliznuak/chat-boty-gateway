@@ -46,6 +46,9 @@ def main():
     print("Restart Docker Compose:")
     run_command(f"sudo docker compose -f {DOCKER_COMPOSE_FILE_NAME} up -d")
 
+    print("Post clear:")
+    run_command(f"sudo docker system prune -f")
+
 
 if __name__ == "__main__":
     main()
