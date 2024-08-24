@@ -31,14 +31,6 @@ def run_command(command: str, print_blank_end_line: bool = True):
 
 
 def main():
-    # Run ssh agent, add github ssh key
-    run_command('eval "$(ssh-agent -s)"')
-    run_command('SSH_AUTH_SOCK=$SSH_AUTH_SOCK ssh-add ~/.ssh/github')  # SSH_AUTH_SOCK=$SSH_AUTH_SOCK что бы был ssh агент текущего пользователя
-
-    # Pull changes
-    print("Pull gateway:")
-    run_command("git pull")
-
     # Pull images
     print("Pull docker images:")
     run_command(f"sudo docker compose -f {DOCKER_COMPOSE_FILE_NAME} pull")
