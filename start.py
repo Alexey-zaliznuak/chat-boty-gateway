@@ -41,11 +41,13 @@ def main():
 
     # Rstart Docker Compose
     print("Stopping Docker Compose:")
-    run_command("sudo docker compose down")
+    try:
+        run_command(f"sudo docker compose -f {DOCKER_COMPOSE_FILE_NAME} down")
+    except Exception as e:
+        print(e + "\n")
+        print("Error ignored")
 
     print("Restart Docker Compose:")
-    run_command(f"sudo docker compose -f {DOCKER_COMPOSE_FILE_NAME} up -d")
-
     run_command(f"sudo docker compose -f {DOCKER_COMPOSE_FILE_NAME} up -d")
 
 
