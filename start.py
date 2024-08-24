@@ -41,7 +41,7 @@ def main():
 
     # Pull images
     print("Pull docker images:")
-    run_command("sudo docker compose pull")
+    run_command("sudo docker compose -f {DOCKER_COMPOSE_FILE_NAME} pull")
 
     # Rstart Docker Compose
     print("Stopping Docker Compose:")
