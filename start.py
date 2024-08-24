@@ -6,7 +6,8 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 
 
-MODE = os.getenv("mode")
+MODE = os.getenv("MODE")
+
 
 if not MODE:
     raise RuntimeError("No mode provided")
