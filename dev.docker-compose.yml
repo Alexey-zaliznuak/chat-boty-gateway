@@ -1,7 +1,6 @@
 version: '3'
 
 volumes:
-  static:
   blog_content:
   postgres_data:
 
@@ -25,7 +24,7 @@ services:
 
 
   backend:
-    build: ./chat-boty-backend
+    image: alexeyzaliznuak/chat_boty_backend_dev
     env_file: .env
 
     depends_on:
@@ -43,7 +42,7 @@ services:
 
 
   frontend:
-    build: ./chat-boty-client
+    image: maxiq/chat_boty_frontend_dev
     env_file: .env
 
     deploy:
@@ -63,5 +62,4 @@ services:
       - frontend
 
     volumes:
-      - static:/usr/share/nginx/html
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
