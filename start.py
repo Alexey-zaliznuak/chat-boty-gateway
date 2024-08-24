@@ -39,6 +39,10 @@ def main():
     print("Pull gateway:")
     run_command("git pull")
 
+    # Pull images
+    print("Pull docker images:")
+    run_command("sudo docker compose pull")
+
     # Rstart Docker Compose
     print("Stopping Docker Compose:")
     try:
