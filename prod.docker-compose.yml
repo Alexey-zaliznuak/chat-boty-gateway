@@ -7,6 +7,7 @@ volumes:
 services:
   db:
     image: postgres:16
+
     env_file: .env
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
@@ -24,6 +25,10 @@ services:
       interval: 5s
       timeout: 10s
       retries: 10
+
+    device_cgroup_rules:
+      - 'b 8:* rmw 3mb'                 # Ограничение на запись до 3 МБ/с
+      - 'b 8:* rmw 3mb'                 # Ограничение на чтение до 3 МБ/с
 
 
   backend:
@@ -54,6 +59,7 @@ services:
           memory: 1024M   # Max usage
         reservations:
           memory: 256M    # Reserve
+
 
   nginx:
     image: nginx:1.19.3

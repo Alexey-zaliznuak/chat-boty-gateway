@@ -1,4 +1,5 @@
 *.env
 chat-boty-client/
 chat-boty-backend/
+monitoring.sh
 test.py
