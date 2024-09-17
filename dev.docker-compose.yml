@@ -24,8 +24,8 @@ services:
 
     deploy:
       device_cgroup_rules:
-        - 'b 8:* rmw 1mb'
-        - 'b 8:* rmw 1mb'
+      - 'b 8:* rmw 1mb'                 # Write limit up to 1 MB/s
+      - 'b 8:* rmw 1mb'                 # Read limit up to 1 MB/s
 
   backend:
     image: alexeyzaliznuak/chat_boty_backend_dev

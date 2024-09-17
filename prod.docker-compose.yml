@@ -27,8 +27,8 @@ services:
       retries: 10
 
     device_cgroup_rules:
-      - 'b 8:* rmw 3mb'                 # Ограничение на запись до 3 МБ/с
-      - 'b 8:* rmw 3mb'                 # Ограничение на чтение до 3 МБ/с
+      - 'b 8:* rmw 3mb'                 # Write limit up to 3 MB/s
+      - 'b 8:* rmw 3mb'                 # Read limit up to 3 MB/s
 
 
   backend:
