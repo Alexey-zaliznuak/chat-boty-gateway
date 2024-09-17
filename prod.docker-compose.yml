@@ -26,9 +26,10 @@ services:
       timeout: 10s
       retries: 10
 
-    device_cgroup_rules:
-      - 'b 8:* rmw 3mb'                 # Write limit up to 3 MB/s
-      - 'b 8:* rmw 3mb'                 # Read limit up to 3 MB/s
+    deploy:
+      resources:
+       limits:
+          cpus: '0.3'
 
 
   backend:

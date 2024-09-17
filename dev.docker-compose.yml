@@ -23,9 +23,10 @@ services:
       retries: 10
 
     deploy:
-      device_cgroup_rules:
-      - 'b 8:* rmw 1mb'                 # Write limit up to 1 MB/s
-      - 'b 8:* rmw 1mb'                 # Read limit up to 1 MB/s
+      resources:
+        limits:
+          cpus: '0.15'
+
 
   backend:
     image: alexeyzaliznuak/chat_boty_backend_dev
