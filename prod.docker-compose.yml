@@ -29,6 +29,7 @@ services:
     deploy:
       resources:
        limits:
+          memory: 256M    # Max usage
           cpus: '0.3'
 
 
