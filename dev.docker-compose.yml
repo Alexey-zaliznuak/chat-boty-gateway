@@ -48,7 +48,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 128M    # Max usage
+          memory: 300M    # Max usage
           cpus: '0.1'
 
   frontend:
