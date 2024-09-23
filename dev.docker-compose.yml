@@ -49,7 +49,7 @@ services:
       resources:
         limits:
           memory: 300M    # Max usage
-          cpus: '0.1'
+          cpus: '0.2'
 
   frontend:
     image: maxiq/chat_boty_frontend_dev
