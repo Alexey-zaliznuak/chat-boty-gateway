@@ -28,10 +28,10 @@ services:
 
     deploy:
       resources:
-       limits:
-          memory: 256M    # Max usage
-          cpus: '0.3'
-
+        limits:
+          memory: 256M   # Max usage
+        reservations:
+          memory: 128M   # Reserve
 
   backend:
     image: alexeyzaliznuak/chat_boty_backend_prod
@@ -50,6 +50,12 @@ services:
       timeout: 5s
       retries: 5
 
+    deploy:
+      resources:
+        limits:
+          memory: 512M   # Max usage
+        reservations:
+          memory: 512M   # Reserve
 
   frontend:
     image: maxiq/chat_boty_frontend_prod
@@ -58,10 +64,9 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1024M   # Max usage
+          memory: 5GB   # Max usage
         reservations:
-          memory: 256M    # Reserve
-
+          memory: 4GB   # Reserve
 
   nginx:
     image: nginx:1.19.3
