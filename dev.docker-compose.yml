@@ -25,8 +25,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.15'
-
+          memory: 128M    # Max usage
+          cpus: '0.05'
 
   backend:
     image: alexeyzaliznuak/chat_boty_backend_dev
@@ -45,6 +45,11 @@ services:
       timeout: 5s
       retries: 5
 
+    deploy:
+      resources:
+        limits:
+          memory: 300M    # Max usage
+          cpus: '0.2'
 
   frontend:
     image: maxiq/chat_boty_frontend_dev
