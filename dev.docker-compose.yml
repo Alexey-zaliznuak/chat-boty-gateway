@@ -58,7 +58,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 512M    # Max usage
+          memory: 666M    # Max usage
         reservations:
           memory: 256M    # Reserve
 
